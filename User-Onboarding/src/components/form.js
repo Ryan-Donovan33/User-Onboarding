@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Form, Field, withFormik } from 'formik';
+
 import './Form.scss';
 
-const Form = () => {
+const UserForm = () => {
 	return <div>Form to put added later</div>;
 };
 
-export default Form;
+export default UserForm;
