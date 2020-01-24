@@ -23,8 +23,14 @@ const UserForm = ({ errors, touched, values, status }) => {
 			<Form>
 				{/* creating formik form to onboard new users into the system */}
 				<Field type="text" name="name" placeholder="Enter Name" value={values.name} />
+				{touched.name && errors.name && <p>{errors.name}</p>}
+
 				<Field type="email" name="email" placeholder="Email" value={values.email} />
+				{touched.email && errors.email && <p>{errors.email}</p>}
+
 				<Field type="text" name="pass" placeholder="Password" value={values.pass} />
+				{touched.pass && errors.pass && <p>{errors.pass}</p>}
+
 				<label>
 					Terms of Services
 					<Field type="checkbox" name="terms" value={values.terms} />
@@ -58,21 +64,23 @@ const FormikUserForm = withFormik({
 	validationSchema: Yup.object().shape({
 		name: Yup.string().required('Please Fill in Name!'),
 		email: Yup.string().required('Please put in your email address!'),
-		pass: Yup.stril().required('Password Needed!'),
+		pass: Yup.string().required('Password Needed!'),
 		terms: Yup.bool()
 	}),
 
 	handleSubmit(values, { setStatus, resetForm }) {
 		console.log('submitting form:', values);
 
-		axios.post('https://reqres.in/api/users', values);
-		then((res) => {
-			console.log('Success:', res);
-			setStatus(res.data);
-			resetForm();
-		}).catch((err) => {
-			console.log('Error:', err.response);
-		});
+		axios
+			.post('https://reqres.in/api/users', values)
+			.then((res) => {
+				console.log('Success:', res);
+				setStatus(res.data);
+				resetForm();
+			})
+			.catch((err) => {
+				console.log('Error:', err.response);
+			});
 	}
 })(UserForm);
 export default FormikUserForm;
